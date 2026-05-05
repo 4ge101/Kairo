@@ -4,15 +4,12 @@ nav {
   justify-content: space-between;
   padding: 4% 24px 0 4%;
   background-color: #f0ebe0;
-
-  /* ── FIX 1: Sticky navbar ── */
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  /* Nav is a flex child of #app — it stays fixed at top, page can't scroll */
+  flex-shrink: 0;
 }
 
 .logo img {
-  width: 20%;
+  width: 16%;
 }
 
 .small-logo-title h2 {
@@ -20,6 +17,6 @@ nav {
   font-weight: 900;
   color: #1a1a1a;
   position: absolute;
-  left: 24%;
-  margin: 15px 0;
+  left: 20%;
+  margin: 5px 0;
 }
