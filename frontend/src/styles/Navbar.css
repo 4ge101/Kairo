@@ -4,6 +4,11 @@ nav {
   justify-content: space-between;
   padding: 4% 24px 0 4%;
   background-color: #f0ebe0;
+
+  /* ── FIX 1: Sticky navbar ── */
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo img {

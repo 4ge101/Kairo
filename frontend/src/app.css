@@ -6,6 +6,7 @@
 
 body {
   background-color: #f0ebe0;
+  overflow-x: hidden;
 }
 
 /* ── WOOD FRAME OVERLAY ── */

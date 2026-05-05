@@ -1,40 +1,154 @@
-.hero-box-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
-  padding: 16px 24px 24px 24px;
-  min-height: calc(100vh - 60px);
-  background-color: #f0ebe0;
-  font-family: "Arial Black", "Arial Bold", sans-serif;
-}
-
-/* ── LEFT PANEL ── */
-.events-panel {
-  background-color: #f0ebe0;
-  border: 2.5px solid #1a1a1a;
-  border-radius: 20px;
-  padding: 24px;
+/* ── VIEWPORT: no scroll, full height ── */
+.h-viewport {
+  width: 100%;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 70vh;
-  justify-content: space-between;
+  padding: 16px 28px 8px 28px;
+  background-color: #f0ebe0;
+  font-family: "Arial Black", "Arial Bold", sans-serif;
+  position: relative;
+  left: 4%;
 }
 
-.events-panel h2 {
-  font-size: 18px;
+/* ── TRACK: horizontal row of columns ── */
+.h-track {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  height: 100%;
+  /* FIX 3: allow overflow so scaled cards aren't clipped */
+  overflow: visible;
+  scroll-behavior: smooth;
+  flex: 1;
+  /* FIX 2: add padding so scale doesn't get clipped at edges */
+  padding: 8px 4px;
+}
+
+/* ── COLUMNS ── */
+.h-col {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  transition: transform 0.2s ease;
+}
+
+/*
+  FIX 2: Card widths
+  Goal: show exactly [big | double | big] in one viewport (~3 columns visible).
+  Formula: (100vw - left offset 4% - padding 56px - gaps 32px) / 3 ≈ use CSS calc
+  Big cards and double cards get equal width so layout is balanced.
+*/
+.h-col--big {
+  width: calc((100vw * 0.92 - 56px - 32px) / 3);
+}
+
+.h-col--double {
+  width: calc((100vw * 0.92 - 56px - 32px) / 3);
+}
+
+/* ── BASE CARD ── */
+.h-card {
+  border: 2.5px solid #1a1a1a;
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  /* FIX 3: visible overflow so scale isn't clipped */
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Keep inner content clipped to the card shape */
+.h-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Clip the background color & bg-icon but not the border/shadow */
+.h-card > *:not(.card-bg-icon) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Background fill sits clipped inside */
+.h-card {
+  background-clip: padding-box;
+}
+
+.h-card--big {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  /* clip bg visually without clipping the transform */
+  border-radius: 20px;
+}
+
+.h-card--small {
+  height: calc((70vh - 16px) / 2);
+}
+
+/* ── HOVER & FOCUSED ── */
+.h-card:hover,
+.h-card--focused {
+  transform: scale(1.025);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.25);
+  /* Bring hovered card above siblings */
+  z-index: 10;
+}
+
+/* ── CARD CONTENT ── */
+.h-card h2 {
+  font-size: 38px;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: #1a1a1a;
-  margin: 0 0 16px 0;
+  margin: 0 0 4px 0;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
 }
 
-.events-empty {
-  font-size: 14px;
-  color: #888;
+.h-card--small h2 {
+  font-size: 28px;
+}
+
+.h-card p {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── BACKGROUND ICON ── */
+.card-bg-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.2;
+  z-index: 0;
+  /* clip icon to card bounds */
+  clip-path: inset(0 0 0 0 round 18px);
+}
+
+.h-card--small .card-bg-icon {
+  width: 100px;
+  height: 100px;
+}
+
+/* ── EVENTS LINK BUTTON ── */
 .events-link-btn {
   display: inline-flex;
   align-items: center;
@@ -48,10 +162,12 @@
   letter-spacing: 0.06em;
   background: transparent;
   cursor: pointer;
-  color: #1a1a1a;
   text-decoration: none;
-  align-self: flex-end;
+  align-self: flex-start;
+  margin-top: 12px;
   transition: background 0.15s;
+  position: relative;
+  z-index: 1;
 }
 
 .events-link-btn:hover {
@@ -62,154 +178,50 @@
   width: 16px;
   height: 16px;
   display: inline-block;
-  border: 1.5px solid #1a1a1a;
+  border: 1.5px solid currentColor;
   border-radius: 50%;
 }
 
-/* ── MIDDLE COLUMN ── */
-.middle-column {
+/* ── NAV HINT BAR ── */
+.h-nav-hint {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* ── BASE CARD ── */
-.card {
-  border: 2.5px solid #1a1a1a;
-  border-radius: 20px;
-  padding: 28px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.15s;
-  height: 34.3vh;
-}
-
-.card:hover {
-  transform: scale(1.01);
-}
-
-/* ── PROJECTS CARD ── */
-.card-projects {
-  background-color: #f5a623;
-}
-
-.card-projects .card-bg-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 140px;
-  height: 140px;
-  opacity: 0.25;
-}
-
-.card-projects h2 {
-  font-size: 42px;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  margin: 0 0 6px 0;
-  line-height: 1;
-}
-
-.card-projects p {
-  font-size: 13px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0 4px 0;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: #1a1a1a;
-  margin: 0;
+  flex-shrink: 0;
 }
 
-/* ── GUIDES CARD ── */
-.card-guides {
-  background-color: #7ed321;
-}
-
-.card-guides .card-bg-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 140px;
-  height: 140px;
-  opacity: 0.25;
-}
-
-.card-guides h2 {
-  font-size: 42px;
-  font-weight: 900;
-  text-transform: uppercase;
-  color: #1a1a1a;
-  margin: 0 0 6px 0;
-  line-height: 1;
-}
-
-.card-guides p {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0;
-}
-
-/* ── RIGHT CARD (hackathon) ── */
-.card-event {
-  border: 2.5px solid #1a1a1a;
-  border-radius: 20px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 70vh;
-  cursor: pointer;
-}
-
-.card-event-banner {
-  flex: 1;
-  background: linear-gradient(180deg, #87ceeb 0%, #b0e0ff 60%, #c8f0ff 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 24px;
-  position: relative;
-  min-height: 340px;
-}
-
-.card-event-banner::before,
-.card-event-banner::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.card-event-banner::before {
-  width: 6px;
-  height: 6px;
-  top: 40px;
-  right: 60px;
-}
-
-.card-event-banner::after {
-  width: 4px;
-  height: 4px;
-  top: 70px;
-  right: 100px;
-}
-
-.card-event-logo {
-  font-family: serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: #2c5fa8;
-  text-shadow: 1px 1px 0 #fff;
-  margin-bottom: 4px;
-  font-style: italic;
-}
-
-.card-event-logo span {
+.h-nav-hint span {
+  display: inline-block;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  padding: 2px 8px;
   font-size: 11px;
-  font-style: normal;
-  display: block;
-  color: #3a70c0;
-  letter-spacing: 0.05em;
+}
+
+/* ── DOTS ── */
+.h-dots {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.h-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #1a1a1a;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s;
+}
+
+.h-dot--active {
+  background: #1a1a1a;
 }
