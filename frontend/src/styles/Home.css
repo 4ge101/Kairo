@@ -1,0 +1,215 @@
+.hero-box-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 16px 24px 24px 24px;
+  min-height: calc(100vh - 60px);
+  background-color: #f0ebe0;
+  font-family: "Arial Black", "Arial Bold", sans-serif;
+}
+
+/* ── LEFT PANEL ── */
+.events-panel {
+  background-color: #f0ebe0;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: space-between;
+}
+
+.events-panel h2 {
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+}
+
+.events-empty {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+.events-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid #1a1a1a;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: transparent;
+  cursor: pointer;
+  color: #1a1a1a;
+  text-decoration: none;
+  align-self: flex-end;
+  transition: background 0.15s;
+}
+
+.events-link-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.events-link-btn .icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 50%;
+}
+
+/* ── MIDDLE COLUMN ── */
+.middle-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── BASE CARD ── */
+.card {
+  border: 2.5px solid #1a1a1a;
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s;
+  height: 34.3vh;
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+/* ── PROJECTS CARD ── */
+.card-projects {
+  background-color: #f5a623;
+}
+
+.card-projects .card-bg-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.25;
+}
+
+.card-projects h2 {
+  font-size: 42px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+  line-height: 1;
+}
+
+.card-projects p {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ── GUIDES CARD ── */
+.card-guides {
+  background-color: #7ed321;
+}
+
+.card-guides .card-bg-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 140px;
+  height: 140px;
+  opacity: 0.25;
+}
+
+.card-guides h2 {
+  font-size: 42px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+  line-height: 1;
+}
+
+.card-guides p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+/* ── RIGHT CARD (hackathon) ── */
+.card-event {
+  border: 2.5px solid #1a1a1a;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  cursor: pointer;
+}
+
+.card-event-banner {
+  flex: 1;
+  background: linear-gradient(180deg, #87ceeb 0%, #b0e0ff 60%, #c8f0ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 24px;
+  position: relative;
+  min-height: 340px;
+}
+
+.card-event-banner::before,
+.card-event-banner::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.card-event-banner::before {
+  width: 6px;
+  height: 6px;
+  top: 40px;
+  right: 60px;
+}
+
+.card-event-banner::after {
+  width: 4px;
+  height: 4px;
+  top: 70px;
+  right: 100px;
+}
+
+.card-event-logo {
+  font-family: serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: #2c5fa8;
+  text-shadow: 1px 1px 0 #fff;
+  margin-bottom: 4px;
+  font-style: italic;
+}
+
+.card-event-logo span {
+  font-size: 11px;
+  font-style: normal;
+  display: block;
+  color: #3a70c0;
+  letter-spacing: 0.05em;
+}
