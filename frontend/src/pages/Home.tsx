@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "preact/hooks";
 import type { FunctionalComponent, JSX } from "preact";
 import "../styles/Home.css";
+import MouseIcon from "../assets/icons/mouse.svg";
 
 const ProjectsBgIcon = () => (
   <svg
@@ -291,16 +292,112 @@ const Home: FunctionalComponent = () => {
       </div>
 
       <div class="h-nav-hint">
-        <span>← →</span> or <span>A D</span> to navigate
-        <div class="h-dots">
-          {CARDS.map((_, i) => (
-            <button
-              key={i}
-              class={`h-dot${focusedCol === i ? " h-dot--active" : ""}`}
-              onClick={() => setFocusedCol(i)}
+        <span>use</span>
+        <span>
+          <svg
+            width="92"
+            height="92"
+            viewBox="0 0 116 92"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect
+              x="40"
+              y="0"
+              width="36"
+              height="36"
+              rx="2"
+              fill="#f0ebe0"
+              stroke="#111"
+              stroke-width="3"
             />
-          ))}
-        </div>
+            <text
+              x="58"
+              y="24"
+              text-anchor="middle"
+              font-size="18"
+              font-family="Arial, sans-serif"
+              font-weight="700"
+              fill="#111"
+            >
+              W
+            </text>
+
+            <rect
+              x="0"
+              y="44"
+              width="36"
+              height="36"
+              rx="2"
+              fill="#f0ebe0"
+              stroke="#111"
+              stroke-width="3"
+            />
+            <text
+              x="18"
+              y="68"
+              text-anchor="middle"
+              font-size="18"
+              font-family="Arial, sans-serif"
+              font-weight="700"
+              fill="#111"
+            >
+              A
+            </text>
+
+            <rect
+              x="40"
+              y="44"
+              width="36"
+              height="36"
+              rx="2"
+              fill="#f0ebe0"
+              stroke="#111"
+              stroke-width="3"
+            />
+            <text
+              x="58"
+              y="68"
+              text-anchor="middle"
+              font-size="18"
+              font-family="Arial, sans-serif"
+              font-weight="700"
+              fill="#111"
+            >
+              S
+            </text>
+
+            <rect
+              x="80"
+              y="44"
+              width="36"
+              height="36"
+              rx="2"
+              fill="#f0ebe0"
+              stroke="#111"
+              stroke-width="3"
+            />
+            <text
+              x="98"
+              y="68"
+              text-anchor="middle"
+              font-size="18"
+              font-family="Arial, sans-serif"
+              font-weight="700"
+              fill="#111"
+            >
+              D
+            </text>
+          </svg>
+        </span>{" "}
+
+        <span>or</span>{" "}
+        
+        <span>
+          <img class="mouseicon" src={MouseIcon} alt="mouse icon" />
+        </span>{" "}
+        
+        <span>to navigate</span>
       </div>
     </div>
   );
