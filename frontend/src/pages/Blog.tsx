@@ -1,7 +1,7 @@
 import type { FunctionalComponent } from "preact";
 
-const contact: FunctionalComponent = () => {
+const blog: FunctionalComponent = () => {
   return <div>{/* Your content here */}</div>;
 };
 
-export default contact;
+export default blog;

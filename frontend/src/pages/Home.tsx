@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "preact/hooks";
+import { route } from "preact-router";
 import type { FunctionalComponent, JSX } from "preact";
 import "../styles/Home.css";
 import MouseIcon from "../assets/icons/mouse.svg";
@@ -74,7 +75,7 @@ type BigCard = {
   color: string;
   textColor: string;
   icon: () => JSX.Element;
-  href?: string;
+  href: string;
 };
 
 type DoubleCard = {
@@ -86,6 +87,7 @@ type DoubleCard = {
     color: string;
     textColor: string;
     icon: () => JSX.Element;
+    href: string;
   };
   bottom: {
     title: string;
@@ -93,6 +95,7 @@ type DoubleCard = {
     color: string;
     textColor: string;
     icon: () => JSX.Element;
+    href: string;
   };
 };
 
@@ -107,7 +110,7 @@ const CARDS: CardEntry[] = [
     color: "#f0ebe0",
     textColor: "#1a1a1a",
     icon: EventsBgIcon,
-    href: "#",
+    href: "/events",
   },
   {
     type: "double",
@@ -118,6 +121,7 @@ const CARDS: CardEntry[] = [
       color: "#f5a623",
       textColor: "#1a1a1a",
       icon: ProjectsBgIcon,
+      href: "/about",
     },
     bottom: {
       title: "guides",
@@ -125,6 +129,7 @@ const CARDS: CardEntry[] = [
       color: "#7ed321",
       textColor: "#1a1a1a",
       icon: GuidesBgIcon,
+      href: "/guides",
     },
   },
   {
@@ -135,6 +140,7 @@ const CARDS: CardEntry[] = [
     color: "#87ceeb",
     textColor: "#2c5fa8",
     icon: GuidesBgIcon,
+    href: "/social",
   },
   {
     type: "double",
@@ -145,6 +151,7 @@ const CARDS: CardEntry[] = [
       color: "#e8a0f0",
       textColor: "#1a1a1a",
       icon: GuidesBgIcon,
+      href: "/blog",
     },
     bottom: {
       title: "contact",
@@ -152,6 +159,7 @@ const CARDS: CardEntry[] = [
       color: "#ffd166",
       textColor: "#1a1a1a",
       icon: ProjectsBgIcon,
+      href: "/contact",
     },
   },
   {
@@ -162,6 +170,7 @@ const CARDS: CardEntry[] = [
     color: "#ff6b6b",
     textColor: "#1a1a1a",
     icon: EventsBgIcon,
+    href: "/faq",
   },
 ];
 
@@ -176,15 +185,20 @@ const BigCardEl: FunctionalComponent<{ card: BigCard; focused: boolean }> = ({
       color: card.textColor,
       borderColor: card.textColor,
     }}
+    onClick={() => route(card.href)}
   >
     <card.icon />
     <h2 style={{ color: card.textColor }}>{card.title}</h2>
     <p style={{ color: card.textColor }}>{card.subtitle}</p>
-    {card.href && (
+    {card.id === "events" && (
       <a
         href={card.href}
         class="events-link-btn"
         style={{ borderColor: card.textColor, color: card.textColor }}
+        onClick={(e) => {
+          e.preventDefault();
+          route(card.href);
+        }}
       >
         <span class="icon" />
         To View Community Events
@@ -193,23 +207,30 @@ const BigCardEl: FunctionalComponent<{ card: BigCard; focused: boolean }> = ({
   </div>
 );
 
-const SmallCardEl: FunctionalComponent<{
-  data: DoubleCard["top"];
-  focused: boolean;
-}> = ({ data, focused }) => (
-  <div
-    class={`h-card h-card--small${focused ? " h-card--focused" : ""}`}
-    style={{
-      backgroundColor: data.color,
-      color: data.textColor,
-      borderColor: data.textColor,
-    }}
-  >
-    <data.icon />
-    <h2 style={{ color: data.textColor }}>{data.title}</h2>
-    <p style={{ color: data.textColor }}>{data.subtitle}</p>
-  </div>
-);
+// Each small card tracks its own hovered state independently
+const SmallCardEl: FunctionalComponent<{ data: DoubleCard["top"] }> = ({
+  data,
+}) => {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      class={`h-card h-card--small${hovered ? " h-card--hovered" : ""}`}
+      style={{
+        backgroundColor: data.color,
+        color: data.textColor,
+        borderColor: data.textColor,
+      }}
+      onClick={() => route(data.href)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <data.icon />
+      <h2 style={{ color: data.textColor }}>{data.title}</h2>
+      <p style={{ color: data.textColor }}>{data.subtitle}</p>
+    </div>
+  );
+};
 
 const Home: FunctionalComponent = () => {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -220,22 +241,20 @@ const Home: FunctionalComponent = () => {
     const track = trackRef.current;
     if (!track) return;
     const col = track.children[focusedCol] as HTMLElement;
-    if (col) {
+    if (col)
       col.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
         inline: "center",
       });
-    }
   }, [focusedCol]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
+      if (e.key === "ArrowRight" || e.key === "d" || e.key === "D")
         setFocusedCol((c) => Math.min(c + 1, totalCols - 1));
-      } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
+      else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A")
         setFocusedCol((c) => Math.max(c - 1, 0));
-      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -262,11 +281,8 @@ const Home: FunctionalComponent = () => {
                 class="h-col h-col--double"
                 onMouseEnter={() => setFocusedCol(colIdx)}
               >
-                <SmallCardEl data={entry.top} focused={focusedCol === colIdx} />
-                <SmallCardEl
-                  data={entry.bottom}
-                  focused={focusedCol === colIdx}
-                />
+                <SmallCardEl data={entry.top} />
+                <SmallCardEl data={entry.bottom} />
               </div>
             );
           }
@@ -304,7 +320,6 @@ const Home: FunctionalComponent = () => {
             >
               W
             </text>
-
             <rect
               x="0"
               y="44"
@@ -326,7 +341,6 @@ const Home: FunctionalComponent = () => {
             >
               A
             </text>
-
             <rect
               x="40"
               y="44"
@@ -348,7 +362,6 @@ const Home: FunctionalComponent = () => {
             >
               S
             </text>
-
             <rect
               x="80"
               y="44"
@@ -371,14 +384,11 @@ const Home: FunctionalComponent = () => {
               D
             </text>
           </svg>
-        </span>{" "}
-
-        <span>or</span>{" "}
-        
+        </span>
+        <span>or</span>
         <span>
           <img class="mouseicon" src={MouseIcon} alt="mouse icon" />
-        </span>{" "}
-        
+        </span>
         <span>to navigate</span>
       </div>
     </div>

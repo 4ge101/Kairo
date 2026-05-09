@@ -81,16 +81,10 @@
 
 .h-card--small {
   height: calc((58vh - 10px) / 2);
+  box-shadow: 4px 4px 0px #1a1a1a;
 }
 
-.h-col--double .h-card--small:first-child {
-  box-shadow: 2px 4px 0px #1a1a1a;
-}
-
-.h-col--double .h-card--small:last-child {
-  box-shadow: 6px 6px 0px #1a1a1a;
-}
-
+/* Big card hover */
 .h-card--big:hover,
 .h-card--big.h-card--focused {
   transform: scale(1.05);
@@ -98,22 +92,15 @@
   z-index: 10;
 }
 
-.h-col--double .h-card--small:first-child:hover,
-.h-col--double .h-card--small:first-child.h-card--focused {
+/* Small card hover — only when .h-card--hovered is added individually in TSX */
+.h-card--small.h-card--hovered {
   transform: scale(1.05);
-  box-shadow: 5px 5px 0px #1a1a1a;
-  z-index: 10;
-}
-
-.h-col--double .h-card--small:last-child:hover,
-.h-col--double .h-card--small:last-child.h-card--focused {
-  transform: scale(1.05);
-  box-shadow: 8px 8px 0px #1a1a1a;
+  box-shadow: 7px 7px 0px #1a1a1a;
   z-index: 10;
 }
 
 .h-card h2 {
-  font-size: 38px;
+  font-size: 26px;
   font-weight: 900;
   font-family: "Boldonse", system-ui;
   text-transform: uppercase;
@@ -135,6 +122,7 @@
   margin: 0;
   position: relative;
   z-index: 1;
+  padding: 20px 0;
 }
 
 .card-bg-icon {
