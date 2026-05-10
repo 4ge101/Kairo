@@ -12,9 +12,16 @@
   box-sizing: border-box;
 }
 
-.a-viewport::-webkit-scrollbar { width: 5px; }
-.a-viewport::-webkit-scrollbar-track { background: transparent; }
-.a-viewport::-webkit-scrollbar-thumb { background: #1a1a1a25; border-radius: 999px; }
+.a-viewport::-webkit-scrollbar {
+  width: 5px;
+}
+.a-viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+.a-viewport::-webkit-scrollbar-thumb {
+  background: #1a1a1a25;
+  border-radius: 999px;
+}
 
 /* ── Top bar ── */
 .a-topbar {
@@ -34,13 +41,28 @@
   background: #f0ebe0;
   border: 3px solid #1a1a1a;
   border-radius: 12px;
-  padding: 5px 14px 5px 7px;
+  padding: 15px 24px;
   cursor: pointer;
-  box-shadow: 3px 3px 0px #1a1a1a;
-  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 5px 5px 0px #1a1a1a;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    background 0.15s,
+    border-color 0.15s;
 }
-.a-back-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px #1a1a1a; }
-.a-back-btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #1a1a1a; }
+
+.a-back-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0px #1a1a1a;
+  background: #ffa936;
+  border-color: #1a1a1a;
+}
+
+.a-back-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px #1a1a1a;
+  background: #ffa936;
+}
 
 .a-back-key {
   display: inline-flex;
@@ -48,16 +70,16 @@
   justify-content: center;
   border: 2px solid #1a1a1a;
   border-radius: 6px;
-  font-size: 11px;
+  font-size: 20px;
   font-weight: 900;
   font-family: "Arial Black", sans-serif;
-  padding: 2px 7px;
+  padding: 11px 9px;
   color: #1a1a1a;
   letter-spacing: 0.05em;
 }
 
 .a-back-label {
-  font-size: 15px;
+  font-size: 30px;
   font-weight: 900;
   font-family: "Boldonse", system-ui;
   color: #1a1a1a;
@@ -119,7 +141,6 @@
   line-height: 1;
 }
 
-/* Paragraphs — big, readable, not heavy */
 .a-body {
   font-family: "Arial", sans-serif;
   font-size: clamp(16px, 1.5vw, 20px);
@@ -192,6 +213,6 @@
   text-transform: uppercase;
   background: #1a1a1a;
   color: #f0ebe0;
-  padding: 5px 16px;
-  border-radius: 999px;
+  padding: 14px 30px;
+  border-radius: 12px;
 }
