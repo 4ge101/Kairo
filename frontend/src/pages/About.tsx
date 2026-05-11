@@ -22,7 +22,6 @@ const About: FunctionalComponent = () => {
       </div>
 
       <div class="a-content">
-        {/* Hero */}
         <div class="a-hero">
           <h1 class="a-title">About Kairo</h1>
           <p class="a-lead">
@@ -31,7 +30,6 @@ const About: FunctionalComponent = () => {
           </p>
         </div>
 
-        {/* Intro */}
         <div class="a-section">
           <p class="a-body">
             We are a student-driven tech organization focused on building
@@ -58,7 +56,6 @@ const About: FunctionalComponent = () => {
 
         <div class="a-divider" />
 
-        {/* What We Do */}
         <div class="a-section">
           <h2 class="a-section-title">What We Do</h2>
           <ul class="a-list">
@@ -73,7 +70,6 @@ const About: FunctionalComponent = () => {
 
         <div class="a-divider" />
 
-        {/* Vision */}
         <div class="a-section">
           <h2 class="a-section-title">Our Vision</h2>
           <p class="a-body">
@@ -91,7 +87,6 @@ const About: FunctionalComponent = () => {
 
         <div class="a-divider" />
 
-        {/* Approach */}
         <div class="a-section">
           <h2 class="a-section-title">Our Approach</h2>
           <p class="a-body">
@@ -111,7 +106,6 @@ const About: FunctionalComponent = () => {
 
         <div class="a-divider" />
 
-        {/* Why Kairo */}
         <div class="a-section">
           <h2 class="a-section-title">Why "Kairo"?</h2>
           <p class="a-body">
@@ -121,7 +115,6 @@ const About: FunctionalComponent = () => {
           </p>
         </div>
 
-        {/* Footer tagline */}
         <div class="a-footer-tagline">
           <span>Build.</span>
           <span>Learn.</span>

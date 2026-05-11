@@ -1,0 +1,253 @@
+.fq-viewport {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 60px 40px 60px;
+  background-color: #f0ebe0;
+  font-family: "Arial Black", "Arial Bold", sans-serif;
+  box-sizing: border-box;
+}
+
+.fq-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.fq-tag {
+  display: inline-block;
+  background-color: #ff6b6b;
+  color: #1a1a1a;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 4px 14px;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  align-self: flex-start;
+  text-transform: uppercase;
+}
+
+.fq-title {
+  font-family: "Boldonse", system-ui;
+  font-size: clamp(42px, 6vw, 80px);
+  font-weight: 900;
+  color: #1a1a1a;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.fq-subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+  margin: 0;
+}
+
+.fq-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.fq-filter-btn {
+  background-color: #f0ebe0;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-size: 11px;
+  font-weight: 900;
+  font-family: "Boldonse", system-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #1a1a1a;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 0.12s ease;
+  color: #1a1a1a;
+}
+
+.fq-filter-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #1a1a1a;
+}
+
+.fq-filter-btn--active {
+  background-color: #1a1a1a;
+  color: #f0ebe0;
+  box-shadow: 4px 4px 0 #ff6b6b;
+}
+
+.fq-filter-btn--active:hover {
+  box-shadow: 5px 5px 0 #ff6b6b;
+}
+
+.fq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.fq-item {
+  border: 4px solid #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 4px 4px 0 #1a1a1a;
+  background-color: #f0ebe0;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.fq-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #1a1a1a;
+}
+
+.fq-item--open {
+  box-shadow: 5px 5px 0 #ff6b6b;
+}
+
+.fq-item--open:hover {
+  box-shadow: 7px 7px 0 #ff6b6b;
+}
+
+.fq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: "Arial Black", "Arial Bold", sans-serif;
+}
+
+.fq-cat-badge {
+  flex-shrink: 0;
+  background-color: #1a1a1a;
+  color: #f0ebe0;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+}
+
+.fq-question-text {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.fq-chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.fq-chevron--open {
+  transform: rotate(180deg);
+}
+
+.fq-answer {
+  padding: 0 22px 20px 22px;
+  border-top: 3px solid #1a1a1a;
+  padding-top: 16px;
+}
+
+.fq-answer p {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.fq-cta {
+  border: 4px solid #1a1a1a;
+  border-radius: 20px;
+  background-color: #1a1a1a;
+  box-shadow: 6px 6px 0 #ff6b6b;
+  overflow: hidden;
+}
+
+.fq-cta-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px 28px;
+}
+
+.fq-cta-emoji {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.fq-cta-inner div {
+  flex: 1;
+}
+
+.fq-cta-inner h3 {
+  font-family: "Boldonse", system-ui;
+  font-size: 20px;
+  color: #f0ebe0;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
+
+.fq-cta-inner p {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f0ebe0;
+  opacity: 0.6;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fq-cta-btn {
+  flex-shrink: 0;
+  display: inline-block;
+  background-color: #ff6b6b;
+  color: #1a1a1a;
+  border: 3px solid #f0ebe0;
+  border-radius: 999px;
+  padding: 14px 28px;
+  font-size: 12px;
+  font-weight: 900;
+  font-family: "Boldonse", system-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 #f0ebe0;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.fq-cta-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #f0ebe0;
+}
