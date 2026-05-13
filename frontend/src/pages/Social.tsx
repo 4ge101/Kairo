@@ -3,6 +3,10 @@ import { route } from "preact-router";
 import type { FunctionalComponent } from "preact";
 import "../styles/Social.css";
 
+import InstagramIcon from "../assets/icons/instagram.svg";
+import FacebookIcon from "../assets/icons/facebook.svg";
+import TwitterIcon from "../assets/icons/twitter.svg";
+
 const platforms = [
   {
     id: "instagram",
@@ -11,6 +15,7 @@ const platforms = [
     href: "https://instagram.com/kairo",
     color: "#f5a623",
     textColor: "#1a1a1a",
+    icon: InstagramIcon,
   },
   {
     id: "facebook",
@@ -19,6 +24,7 @@ const platforms = [
     href: "https://facebook.com/kairo",
     color: "#7ed321",
     textColor: "#1a1a1a",
+    icon: FacebookIcon,
   },
   {
     id: "twitter",
@@ -27,6 +33,7 @@ const platforms = [
     href: "https://twitter.com/kairo",
     color: "#87ceeb",
     textColor: "#1a1a1a",
+    icon: TwitterIcon,
   },
 ];
 
@@ -35,7 +42,9 @@ const Social: FunctionalComponent = () => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") route("/");
     };
+
     window.addEventListener("keydown", onKey);
+
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
@@ -62,22 +71,31 @@ const Social: FunctionalComponent = () => {
               target="_blank"
               rel="noopener noreferrer"
               class="s-card"
-              style={{ backgroundColor: p.color, borderColor: p.textColor }}
+              style={{
+                backgroundColor: p.color,
+                borderColor: p.textColor,
+              }}
             >
               <div
                 class="s-icon-placeholder"
-                style={{ color: p.textColor, borderColor: p.textColor }}
+                style={{
+                  color: p.textColor,
+                  borderColor: p.textColor,
+                }}
               >
-                {p.name[0]}
+                <img src={p.icon} alt={p.name} class="s-icon" />
               </div>
+
               <div class="s-card-info">
                 <h2 class="s-card-name" style={{ color: p.textColor }}>
                   {p.name}
                 </h2>
+
                 <p class="s-card-handle" style={{ color: p.textColor }}>
                   {p.handle}
                 </p>
               </div>
+
               <span class="s-arrow" style={{ color: p.textColor }}>
                 ↗
               </span>

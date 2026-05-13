@@ -15,9 +15,11 @@
 .s-viewport::-webkit-scrollbar {
   width: 5px;
 }
+
 .s-viewport::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .s-viewport::-webkit-scrollbar-thumb {
   background: #1a1a1a25;
   border-radius: 999px;
@@ -155,11 +157,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Boldonse", system-ui;
-  font-size: 22px;
-  font-weight: 900;
   flex-shrink: 0;
-  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.s-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
+  filter: contrast(120%) saturate(120%);
 }
 
 .s-card-info {

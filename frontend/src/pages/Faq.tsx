@@ -74,8 +74,8 @@ const CATEGORIES = ["ALL", ...Array.from(new Set(FAQS.map((f) => f.category)))];
 const CATEGORY_COLORS: Record<string, string> = {
   GENERAL: "#f5a623",
   EVENTS: "#7ed321",
-  MEMBERSHIP: "#ff6b6b",
-  PROJECTS: "#4ecdc4",
+  MEMBERSHIP: "#e8a0f0",
+  PROJECTS: "#ffd166",
 };
 
 const Faq: FunctionalComponent = () => {
@@ -93,31 +93,36 @@ const Faq: FunctionalComponent = () => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") route("/");
     };
-
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   return (
     <div class="fq-viewport">
-      <div class="a-topbar">
-        <button class="a-back-btn" onClick={() => route("/")}>
-          <span class="a-back-key">ESC</span>
-          <span class="a-back-label">BACK</span>
+      <div class="fq-topbar">
+        <button class="fq-back-btn" onClick={() => route("/")}>
+          <span class="fq-back-key">ESC</span>
+          <span class="fq-back-label">BACK</span>
         </button>
+        <span class="fq-topbar-tag">NEED HELP?</span>
       </div>
 
-      <div class="fq-layout">
+      <div class="fq-body">
         <div class="fq-left">
-          <div class="fq-header">
-            <div class="fq-header-top">
-              <span class="fq-tag">NEED HELP?</span>
-              <div class="fq-header-line" />
+          <h1 class="fq-title">FAQ</h1>
+          <p class="fq-subtitle">
+            Answers to the questions we hear most often.
+          </p>
+
+          <div class="fq-stat-grid">
+            <div class="fq-stat fq-stat--dark">
+              <span class="fq-stat-num">{FAQS.length}</span>
+              <span class="fq-stat-label">QUESTIONS</span>
             </div>
-            <h1 class="fq-title">FAQ</h1>
-            <p class="fq-subtitle">
-              Answers to the questions we hear most often.
-            </p>
+            <div class="fq-stat fq-stat--yellow">
+              <span class="fq-stat-num">{CATEGORIES.length - 1}</span>
+              <span class="fq-stat-label">TOPICS</span>
+            </div>
           </div>
 
           <div class="fq-filters">
@@ -125,57 +130,78 @@ const Faq: FunctionalComponent = () => {
               <button
                 key={cat}
                 class={`fq-filter-btn${activeCategory === cat ? " fq-filter-btn--active" : ""}`}
+                style={
+                  activeCategory === cat && cat !== "ALL"
+                    ? {
+                        backgroundColor: CATEGORY_COLORS[cat] ?? "#1a1a1a",
+                        color: "#1a1a1a",
+                      }
+                    : {}
+                }
                 onClick={() => setActiveCategory(cat)}
               >
                 {cat}
-                <span class="fq-filter-count">
-                  {cat === "ALL"
-                    ? FAQS.length
-                    : FAQS.filter((f) => f.category === cat).length}
-                </span>
               </button>
             ))}
           </div>
 
           <div class="fq-cta">
-            <div class="fq-cta-inner">
-              <div class="fq-cta-icon">💬</div>
-              <h3>STILL HAVE QUESTIONS?</h3>
-              <p>Reach out to us directly — we reply within 48 hours.</p>
-              <a href="/contact" class="fq-cta-btn">
-                CONTACT US →
-              </a>
-            </div>
+            <p class="fq-cta-text">Still can't find what you're looking for?</p>
+            <a href="/contact" class="fq-cta-btn">
+              CONTACT US →
+            </a>
           </div>
         </div>
 
         <div class="fq-right">
-          <div class="fq-list-header">
-            <span class="fq-list-count">{filtered.length} RESULTS</span>
-          </div>
-
           <div class="fq-list">
             {filtered.map((item, idx) => {
               const isOpen = open === item.id;
-              const catColor = CATEGORY_COLORS[item.category] ?? "#f5a623";
-
+              const accent = CATEGORY_COLORS[item.category] ?? "#f5a623";
               return (
                 <div
                   key={item.id}
                   class={`fq-item${isOpen ? " fq-item--open" : ""}`}
-                  style={{
-                    animationDelay: `${idx * 0.04}s`,
-                  }}
+                  style={isOpen ? ({ "--fq-accent": accent } as never) : {}}
                 >
                   <button class="fq-question" onClick={() => toggle(item.id)}>
-                    <span class="fq-cat-badge" style={{ background: catColor }}>
-                      {item.category}
+                    <span class="fq-q-num">
+                      {String(idx + 1).padStart(2, "0")}
                     </span>
-                    <span class="fq-question-text">{item.question}</span>
+                    <span class="fq-q-body">
+                      <span
+                        class="fq-cat-badge"
+                        style={{ backgroundColor: accent }}
+                      >
+                        {item.category}
+                      </span>
+                      <span class="fq-question-text">{item.question}</span>
+                    </span>
+                    <span
+                      class={`fq-chevron${isOpen ? " fq-chevron--open" : ""}`}
+                    >
+                      <svg
+                        width="22"
+                        height="22"
+                        viewBox="0 0 22 22"
+                        fill="none"
+                      >
+                        <path
+                          d="M5 8l6 6 6-6"
+                          stroke="#1a1a1a"
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </span>
                   </button>
-
                   {isOpen && (
                     <div class="fq-answer">
+                      <div
+                        class="fq-answer-bar"
+                        style={{ backgroundColor: accent }}
+                      />
                       <p>{item.answer}</p>
                     </div>
                   )}
