@@ -1,5 +1,5 @@
 import type { FunctionalComponent } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useRef } from "preact/hooks";
 import { route } from "preact-router";
 import "../styles/Guide.css";
 
@@ -116,24 +116,85 @@ const LEVEL_COLORS: Record<string, string> = {
   ADVANCED: "#ff6b6b",
 };
 
-const GuideCard: FunctionalComponent<{ guide: Guide; index: number }> = ({
-  guide,
-  index,
-}) => {
+const LEVEL_ORDER = ["BEGINNER", "INTERMEDIATE", "ADVANCED"];
+
+const ProgressRing: FunctionalComponent<{
+  steps: number;
+  color: string;
+  isDark: boolean;
+}> = ({ steps, color, isDark }) => {
+  const max = 10;
+  const pct = steps / max;
+  const r = 18;
+  const circ = 2 * Math.PI * r;
+  const dash = pct * circ;
+
+  return (
+    <svg class="gd-progress-ring" viewBox="0 0 44 44">
+      <circle
+        cx="22"
+        cy="22"
+        r={r}
+        fill="none"
+        stroke={isDark ? "#f0ebe020" : "#1a1a1a20"}
+        stroke-width="4"
+      />
+      <circle
+        cx="22"
+        cy="22"
+        r={r}
+        fill="none"
+        stroke={isDark ? "#f0ebe0" : "#1a1a1a"}
+        stroke-width="4"
+        stroke-dasharray={`${dash} ${circ}`}
+        stroke-linecap="round"
+        transform="rotate(-90 22 22)"
+        class="gd-ring-fill"
+      />
+      <text
+        x="22"
+        y="27"
+        text-anchor="middle"
+        font-size="11"
+        font-weight="900"
+        font-family="Arial Black, sans-serif"
+        fill={isDark ? "#f0ebe0" : "#1a1a1a"}
+      >
+        {steps}
+      </text>
+    </svg>
+  );
+};
+
+const GuideCard: FunctionalComponent<{
+  guide: Guide;
+  index: number;
+  visible: boolean;
+}> = ({ guide, index, visible }) => {
   const [hovered, setHovered] = useState(false);
+  const [clicked, setClicked] = useState(false);
   const isDark = guide.color === "#1a1a1a";
+
+  const handleClick = () => {
+    setClicked(true);
+    setTimeout(() => setClicked(false), 300);
+  };
 
   return (
     <div
-      class={`gd-card${hovered ? " gd-card--hovered" : ""}`}
-      style={{ backgroundColor: guide.color }}
+      class={`gd-card${hovered ? " gd-card--hovered" : ""}${clicked ? " gd-card--clicked" : ""}${visible ? " gd-card--visible" : ""}`}
+      style={{
+        backgroundColor: guide.color,
+        animationDelay: `${index * 60}ms`,
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={handleClick}
     >
       <div class="gd-card-top">
         <span
           class="gd-card-index"
-          style={{ color: isDark ? "#f0ebe0" : "#1a1a1a", opacity: 0.2 }}
+          style={{ color: isDark ? "#f0ebe0" : "#1a1a1a", opacity: 0.18 }}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
@@ -171,24 +232,31 @@ const GuideCard: FunctionalComponent<{ guide: Guide; index: number }> = ({
 
       <div class="gd-card-footer">
         <div class="gd-card-meta">
-          <span
-            class="gd-meta-pill"
-            style={{
-              borderColor: isDark ? "#f0ebe040" : "#1a1a1a40",
-              color: isDark ? "#f0ebe0" : "#1a1a1a",
-            }}
-          >
-            {guide.steps} STEPS
-          </span>
-          <span
-            class="gd-meta-pill"
-            style={{
-              borderColor: isDark ? "#f0ebe040" : "#1a1a1a40",
-              color: isDark ? "#f0ebe0" : "#1a1a1a",
-            }}
-          >
-            {guide.duration}
-          </span>
+          <ProgressRing
+            steps={guide.steps}
+            color={guide.color}
+            isDark={isDark}
+          />
+          <div class="gd-meta-info">
+            <span
+              class="gd-meta-pill"
+              style={{
+                borderColor: isDark ? "#f0ebe040" : "#1a1a1a40",
+                color: isDark ? "#f0ebe0" : "#1a1a1a",
+              }}
+            >
+              {guide.steps} STEPS
+            </span>
+            <span
+              class="gd-meta-pill"
+              style={{
+                borderColor: isDark ? "#f0ebe040" : "#1a1a1a40",
+                color: isDark ? "#f0ebe0" : "#1a1a1a",
+              }}
+            >
+              {guide.duration}
+            </span>
+          </div>
         </div>
         <button
           class="gd-card-btn"
@@ -201,25 +269,66 @@ const GuideCard: FunctionalComponent<{ guide: Guide; index: number }> = ({
           READ →
         </button>
       </div>
+
+      <div class="gd-card-shine" style={{ opacity: hovered ? 1 : 0 }} />
     </div>
   );
 };
 
 const Guides: FunctionalComponent = () => {
   const [activeCategory, setActiveCategory] = useState("ALL");
+  const [sortBy, setSortBy] = useState<"default" | "level" | "duration">(
+    "default",
+  );
+  const [search, setSearch] = useState("");
+  const [cardsVisible, setCardsVisible] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  const filtered =
+  let filtered =
     activeCategory === "ALL"
       ? GUIDES
       : GUIDES.filter((g) => g.category === activeCategory);
 
+  if (search.trim()) {
+    const q = search.toLowerCase();
+    filtered = filtered.filter(
+      (g) =>
+        g.title.toLowerCase().includes(q) ||
+        g.description.toLowerCase().includes(q) ||
+        g.category.toLowerCase().includes(q),
+    );
+  }
+
+  if (sortBy === "level") {
+    filtered = [...filtered].sort(
+      (a, b) => LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level),
+    );
+  } else if (sortBy === "duration") {
+    filtered = [...filtered].sort(
+      (a, b) => parseInt(a.duration) - parseInt(b.duration),
+    );
+  }
+
+  useEffect(() => {
+    setCardsVisible(false);
+    const t = setTimeout(() => setCardsVisible(true), 30);
+    return () => clearTimeout(t);
+  }, [activeCategory, sortBy, search]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") route("/");
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const completedCount = 0;
+  const totalSteps = GUIDES.reduce((s, g) => s + g.steps, 0);
 
   return (
     <div class="gd-viewport">
@@ -228,12 +337,29 @@ const Guides: FunctionalComponent = () => {
           <span class="gd-back-key">ESC</span>
           <span class="gd-back-label">BACK</span>
         </button>
-        <span class="gd-topbar-tag">NEW TO Kairo?</span>
+        <div class="gd-topbar-right">
+          <div class="gd-search-wrap">
+            <span class="gd-search-icon">⌕</span>
+            <input
+              ref={searchRef}
+              class="gd-search"
+              type="text"
+              placeholder="SEARCH GUIDES..."
+              value={search}
+              onInput={(e) => setSearch((e.target as HTMLInputElement).value)}
+            />
+            <span class="gd-search-hint">⌘K</span>
+          </div>
+          <span class="gd-topbar-tag">NEW TO Kairo?</span>
+        </div>
       </div>
 
       <div class="gd-body">
         <div class="gd-left">
-          <h1 class="gd-title">GUIDES</h1>
+          <div class="gd-title-wrap">
+            <h1 class="gd-title">GUIDES</h1>
+            <div class="gd-title-accent" />
+          </div>
           <p class="gd-subtitle">
             Everything you need to find your footing and start building.
           </p>
@@ -247,8 +373,17 @@ const Guides: FunctionalComponent = () => {
               <span class="gd-stat-num">{CATEGORIES.length - 1}</span>
               <span class="gd-stat-label">TOPICS</span>
             </div>
+            <div class="gd-stat gd-stat--orange">
+              <span class="gd-stat-num">{totalSteps}</span>
+              <span class="gd-stat-label">STEPS</span>
+            </div>
+            <div class="gd-stat gd-stat--pink">
+              <span class="gd-stat-num">{completedCount}</span>
+              <span class="gd-stat-label">DONE</span>
+            </div>
           </div>
 
+          <div class="gd-section-label">FILTER BY TOPIC</div>
           <div class="gd-filters">
             {CATEGORIES.map((cat) => (
               <button
@@ -256,7 +391,8 @@ const Guides: FunctionalComponent = () => {
                 class={`gd-filter-btn${activeCategory === cat ? " gd-filter-btn--active" : ""}`}
                 onClick={() => setActiveCategory(cat)}
               >
-                {cat}
+                <span class="gd-filter-dot" />
+                <span class="gd-filter-name">{cat}</span>
                 <span class="gd-filter-count">
                   {cat === "ALL"
                     ? GUIDES.length
@@ -266,8 +402,25 @@ const Guides: FunctionalComponent = () => {
             ))}
           </div>
 
+          <div class="gd-section-label">SORT BY</div>
+          <div class="gd-sort-group">
+            {(["default", "level", "duration"] as const).map((s) => (
+              <button
+                key={s}
+                class={`gd-sort-btn${sortBy === s ? " gd-sort-btn--active" : ""}`}
+                onClick={() => setSortBy(s)}
+              >
+                {s === "default"
+                  ? "DEFAULT"
+                  : s === "level"
+                    ? "LEVEL ↑"
+                    : "DURATION ↑"}
+              </button>
+            ))}
+          </div>
+
           <div class="gd-level-legend">
-            <span class="gd-legend-title">LEVELS</span>
+            <span class="gd-legend-title">DIFFICULTY LEVELS</span>
             {Object.entries(LEVEL_COLORS).map(([level, color]) => (
               <div key={level} class="gd-legend-item">
                 <span
@@ -275,17 +428,49 @@ const Guides: FunctionalComponent = () => {
                   style={{ backgroundColor: color }}
                 />
                 <span class="gd-legend-label">{level}</span>
+                <span class="gd-legend-count">
+                  {GUIDES.filter((g) => g.level === level).length}
+                </span>
               </div>
             ))}
           </div>
         </div>
 
         <div class="gd-right">
-          <div class="gd-grid">
-            {filtered.map((guide, idx) => (
-              <GuideCard key={guide.id} guide={guide} index={idx} />
-            ))}
-          </div>
+          {filtered.length === 0 ? (
+            <div class="gd-empty">
+              <span class="gd-empty-icon">◎</span>
+              <span class="gd-empty-text">NO GUIDES MATCH YOUR SEARCH</span>
+              <button
+                class="gd-empty-btn"
+                onClick={() => {
+                  setSearch("");
+                  setActiveCategory("ALL");
+                }}
+              >
+                CLEAR FILTERS
+              </button>
+            </div>
+          ) : (
+            <>
+              <div class="gd-results-bar">
+                <span class="gd-results-count">
+                  {filtered.length} GUIDE{filtered.length !== 1 ? "S" : ""}
+                </span>
+                {search && <span class="gd-results-query">for "{search}"</span>}
+              </div>
+              <div class="gd-grid">
+                {filtered.map((guide, idx) => (
+                  <GuideCard
+                    key={guide.id}
+                    guide={guide}
+                    index={idx}
+                    visible={cardsVisible}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
