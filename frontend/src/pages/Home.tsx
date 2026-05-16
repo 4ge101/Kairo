@@ -239,6 +239,19 @@ const Home: FunctionalComponent = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [focusedCol, setFocusedCol] = useState(0);
   const totalCols = CARDS.length;
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const isMobile = useRef(false);
+
+  useEffect(() => {
+    isMobile.current = window.matchMedia("(max-width: 1024px)").matches;
+    const mq = window.matchMedia("(max-width: 1024px)");
+    const handler = (e: MediaQueryListEvent) => {
+      isMobile.current = e.matches;
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -263,8 +276,25 @@ const Home: FunctionalComponent = () => {
     return () => window.removeEventListener("keydown", onKey);
   }, [totalCols]);
 
+  const onTouchStart = (e: TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const onTouchEnd = (e: TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) setFocusedCol((c) => Math.min(c + 1, totalCols - 1));
+      else setFocusedCol((c) => Math.max(c - 1, 0));
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
   return (
-    <div class="h-viewport">
+    <div class="h-viewport" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div class="h-track" ref={trackRef}>
         {CARDS.map((entry, colIdx) => {
           if (entry.type === "big") {
@@ -290,6 +320,16 @@ const Home: FunctionalComponent = () => {
             );
           }
         })}
+      </div>
+
+      <div class="h-dot-indicators">
+        {CARDS.map((entry, i) => (
+          <div
+            key={entry.id}
+            class={`h-dot${focusedCol === i ? " h-dot--active" : ""}`}
+            onClick={() => setFocusedCol(i)}
+          />
+        ))}
       </div>
 
       <div class="h-nav-hint">
@@ -393,6 +433,12 @@ const Home: FunctionalComponent = () => {
           <img class="mouseicon" src={MouseIcon} alt="mouse icon" />
         </span>
         <span>to navigate</span>
+      </div>
+
+      <div class="h-nav-hint--mobile">
+        <span class="h-swipe-arrow">←</span>
+        <span>swipe to navigate</span>
+        <span class="h-swipe-arrow">→</span>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 .h-viewport {
   width: 100%;
+  flex: 1;
+  min-height: 0;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -162,6 +164,7 @@
   border: 1.5px solid currentColor;
   border-radius: 50%;
 }
+
 .h-nav-hint {
   display: flex;
   align-items: center;
@@ -179,9 +182,11 @@
   box-shadow: 4px 4px 0px #1a1a1a;
   width: 34%;
 }
+
 .mouseicon {
   width: 3vw;
 }
+
 .h-nav-hint span {
   display: inline-block;
   border-radius: 6px;
@@ -195,4 +200,161 @@
   background-size: auto;
   background-position: top;
   overflow: hidden;
+}
+
+.h-nav-hint--mobile {
+  display: none;
+}
+
+.h-dot-indicators {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .h-viewport {
+    left: 0;
+    padding: 8px 10px 6px 10px;
+  }
+
+  .h-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 10px;
+    padding: 4px 40px 6px 40px;
+    height: auto;
+    flex: unset;
+    align-items: flex-start;
+  }
+
+  .h-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .h-col {
+    scroll-snap-align: center;
+    height: auto;
+    gap: 10px;
+  }
+
+  .h-col--big {
+    width: 72vw;
+  }
+
+  .h-col--double {
+    width: 58vw;
+  }
+
+  .h-card {
+    width: 100%;
+    padding: 14px;
+    border-width: 3px;
+    border-radius: 16px;
+    box-shadow: 3px 3px 0 #1a1a1a;
+    overflow: hidden;
+  }
+
+  .h-card--big {
+    height: 220px;
+    gap: 4px;
+    box-shadow: 3px 3px 0 #1a1a1a;
+  }
+
+  .h-card--small {
+    height: 100px;
+    box-shadow: 3px 3px 0 #1a1a1a;
+  }
+
+  .h-card h2 {
+    font-size: 14px;
+  }
+
+  .h-card--small h2 {
+    font-size: 14px;
+  }
+
+  .h-card p {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  .card-bg-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .h-card--small .card-bg-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .events-link-btn {
+    font-size: 9px;
+    padding: 6px 10px;
+    margin-top: 6px;
+  }
+
+  .h-card--big:hover,
+  .h-card--big.h-card--focused,
+  .h-card--small.h-card--hovered {
+    transform: none;
+  }
+
+  .h-nav-hint {
+    display: none;
+  }
+
+  .h-nav-hint--mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    background-color: rgb(240, 235, 224);
+    color: rgb(26, 26, 26);
+    border: 3px solid black;
+    border-radius: 20px;
+    box-shadow: 3px 3px 0px #1a1a1a;
+    margin: 4px auto;
+    width: auto;
+  }
+
+  .h-nav-hint--mobile span {
+    font-size: 13px;
+    font-weight: 900;
+    font-family: "Boldonse", system-ui;
+  }
+
+  .h-dot-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 4px 0;
+    flex-shrink: 0;
+  }
+
+  .h-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    opacity: 0.2;
+    border: 2px solid #1a1a1a;
+    transition:
+      opacity 0.2s,
+      transform 0.2s;
+    cursor: pointer;
+  }
+
+  .h-dot--active {
+    opacity: 1;
+    transform: scale(1.3);
+  }
 }
