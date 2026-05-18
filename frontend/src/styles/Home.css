@@ -257,13 +257,13 @@
   }
 
   .h-card--big {
-    height: 220px;
+    height: 72vh;
     gap: 4px;
     box-shadow: 3px 3px 0 #1a1a1a;
   }
 
   .h-card--small {
-    height: 100px;
+    height: 35vh;
     box-shadow: 3px 3px 0 #1a1a1a;
   }
 
