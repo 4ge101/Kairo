@@ -1,0 +1,1 @@
+Kairo. Kairo is an communtiy website that helps to grow with samll teams and build real time projects, also kairo is use for agency to supply webiste and apps 
