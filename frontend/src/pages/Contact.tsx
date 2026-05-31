@@ -63,14 +63,14 @@ const Contact: FunctionalComponent = () => {
               <span class="ct-info-icon">@</span>
               <div>
                 <span class="ct-info-card-label">EMAIL</span>
-                <span class="ct-info-card-value">nexus@hackclub.com</span>
+                <span class="ct-info-card-value">kairo@gmail.com</span>
               </div>
             </div>
             <div class="ct-info-card ct-info-card--green">
               <span class="ct-info-icon">#</span>
               <div>
                 <span class="ct-info-card-label">DISCORD</span>
-                <span class="ct-info-card-value">discord.gg/nexushack</span>
+                <span class="ct-info-card-value">discord.gg/kairo</span>
               </div>
             </div>
             <div class="ct-info-card ct-info-card--dark">

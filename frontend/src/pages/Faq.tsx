@@ -14,14 +14,14 @@ const FAQS: FaqItem[] = [
   {
     id: "f1",
     category: "GENERAL",
-    question: "What is Nexus Hack Club?",
+    question: "What is Kairo Hack Club?",
     answer:
-      "Nexus Hack Club is a student-led community of builders, coders, and creators. We organize events, workshops, and projects to help students learn through making real things.",
+      "Kairo Hack Club is a student-led community of builders, coders, and creators. We organize events, workshops, and projects to help students learn through making real things.",
   },
   {
     id: "f2",
     category: "GENERAL",
-    question: "Who can join Nexus?",
+    question: "Who can join Kairo?",
     answer:
       "Anyone who's curious and wants to build! We welcome students of all skill levels — whether you've never written a line of code or you're already shipping projects.",
   },
@@ -37,7 +37,7 @@ const FAQS: FaqItem[] = [
     category: "EVENTS",
     question: "Are events free to attend?",
     answer:
-      "Yes! All Nexus Hack Club events are completely free to attend. We believe access to learning should never be gated by cost.",
+      "Yes! All Kairo Hack Club events are completely free to attend. We believe access to learning should never be gated by cost.",
   },
   {
     id: "f5",
@@ -56,7 +56,7 @@ const FAQS: FaqItem[] = [
   {
     id: "f7",
     category: "PROJECTS",
-    question: "Can I showcase my project at Nexus?",
+    question: "Can I showcase my project at Kairo?",
     answer:
       "Absolutely. We love hearing about what members are building. Drop a message in our Discord or reach out via the Contact page and we'll find a spot for you.",
   },

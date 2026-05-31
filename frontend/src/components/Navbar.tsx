@@ -6,7 +6,7 @@ const Navbar: FunctionalComponent = () => {
   return (
     <nav>
       <div className="logo">
-        <img src={KairoLogo} alt="nexus hackclub logo" />
+        <img src={KairoLogo} alt="kairo hackclub logo" />
       </div>
       <div className="small-logo-title">
         <h2>IT'S! TIME! TO! COOK!</h2>
