@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "preact/hooks";
+import { route } from "preact-router";
 import type { FunctionalComponent } from "preact";
 import "../styles/Event.css";
 
@@ -83,6 +84,8 @@ const ArrowIcon = () => (
     <path d="M7 17L17 7M17 7H7M17 7v10" />
   </svg>
 );
+
+
 
 const StoryRow: FunctionalComponent<{ story: Story; rank: number }> = ({
   story,
@@ -210,10 +213,25 @@ const Events: FunctionalComponent = () => {
     fetchIds(tab);
   }, [tab]);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") route("/");
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   const hasMore = stories.length < ids.length;
 
   return (
     <div class="hn-page">
+      <div class="hn-topbar">
+        <button class="hn-back-btn" onClick={() => route("/")}>
+          <span class="hn-back-key">ESC</span>
+          <span class="hn-back-label">BACK</span>
+        </button>
+      </div>
+
       <div class="hn-header">
         <div class="hn-header__eyebrow">Tech News</div>
         <h1 class="hn-headline">
@@ -271,9 +289,8 @@ const Events: FunctionalComponent = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hacker News
+          Kairo
         </a>{" "}
-        via the official Firebase API
       </div>
     </div>
   );
